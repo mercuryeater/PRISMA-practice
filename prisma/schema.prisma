@@ -1,0 +1,36 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+//Creando modelo
+// model nombreModel {
+//   id          String   @id @default(cuid())
+//   name        String
+//   description String
+//   price       Int
+//   reviews     Review[]
+// }
+
+// //Relacionar una tabla con otra
+
+// model Review {
+//   id            String      @id @default(cuid())
+//   text          String
+//   rating        Int
+//   nombreModel   nombreModel @relation(fields: [nombreModelId], references: [id])
+//   nombreModelId String
+// }
+
+model persons {
+  id     String @id @default(cuid())
+  name   String
+  number Int
+}

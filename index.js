@@ -17,6 +17,20 @@ app.get("/api/persons", async (req, res) => {
 app.post("/api/persons", async (req, res) => {
   try {
     const { name, phone_number } = req.body;
+
+    if (name === "" || phone_number === 0) {
+      return res
+        .status(406)
+        .json({ message: "error: number and name required" });
+    }
+
+    const persons = await prisma.persons.findMany();
+    if (persons.find((person) => person.name === name)) {
+      return res
+        .status(409)
+        .json({ message: "error: name already registered" });
+    }
+
     const contactCreated = await prisma.persons.create({
       data: {
         name,

@@ -55,6 +55,17 @@ app.get("/api/persons/:id", async (req, res) => {
   return res.json(person);
 });
 
+app.delete("/api/persons/:id", async (req, res) => {
+  const id = req.params.id;
+  const personToDelete = await prisma.persons.delete({
+    where: {
+      id: id,
+    },
+  });
+  console.log(`contact with id ${id} deleted`);
+  return res.status(204).end();
+});
+
 app.listen(PORT, () => {
   console.log(`listening on port ${PORT}`);
 });

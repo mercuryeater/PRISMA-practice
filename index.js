@@ -16,15 +16,33 @@ app.get('/api/persons', async (req, res) => {
 
 
 app.post('/api/persons', async (req, res) => {
-  const data = req.body;
+  try{
+  const {name, phone_number} = req.body;
   const contactCreated = await prisma.persons.create({
       data: {
-          name: data.name,
-          phone_number: data.phone_number,
+          name,
+          phone_number,
       }
   });
   return res.json(contactCreated);
+} catch(err){
+  console.error(err);
+}
 })
+
+
+app.get('/info', async (req, res) => {
+  try{
+  const persons = await prisma.persons.findMany();
+  const people = persons.length;
+  const currentDate = new Date()
+  return res.send(`Phonebook has info for ${people} people<br><br>Time: ${currentDate}`);
+  } catch(err){
+    console.error(err);
+  }
+})
+
+
 
 app.listen(PORT, () => {
   console.log(`listening on port ${PORT}`);

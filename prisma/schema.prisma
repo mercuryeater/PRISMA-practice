@@ -30,7 +30,7 @@ datasource db {
 // }
 
 model persons {
-  id     String @id @default(cuid())
-  name   String
-  number Int
+  id           String @id @default(cuid())
+  name         String
+  phone_number Int
 }

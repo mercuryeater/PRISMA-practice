@@ -1,10 +1,19 @@
 const express = require("express");
 const { PrismaClient } = require("@prisma/client");
+const morgan = require("morgan");
 
 const app = express();
 const prisma = new PrismaClient();
 
+morgan.token("body", function (req) {
+  return JSON.stringify(req.body);
+});
+
 app.use(express.json());
+
+app.use(
+  morgan(":method :url :status :res[content-length] - :response-time ms :body ")
+);
 
 const PORT = process.env.PORT ?? 3001;
 
@@ -83,32 +92,3 @@ app.delete("/api/persons/:id", async (req, res) => {
 app.listen(PORT, () => {
   console.log(`listening on port ${PORT}`);
 });
-
-// const {
-//     handleGetAllData,
-//     handleGetDataById,
-//     handleDeleteById,
-//     handleCreateData,
-//     handleUpdateData
-// } = require("./controller");
-
-// app.use(express.json());
-
-// app.get("/api/persons", handleGetAllData);
-
-// app.get("/info", (req, res) => {
-//   const people = persons.length;
-//   // const dateHeader = req.get('Date'); ESTO ES PARA HEADERS ENVIADOS DESDE EL SERVER?
-//   const currentDate = new Date()
-//   res.send(`Phonebook has info for ${people} people<br><br>Time: ${currentDate}`);
-// });
-
-// app.get("/api/persons/:id", handleGetDataById);
-
-// app.delete("/api/persons/:id", handleDeleteById);
-
-// app.post("/api/persons", handleCreateData);
-
-// app.patch("/api/persons/:id", handleUpdateData);
-
-// app.listen(port, () => console.log(`Example app listening on port ${port}`));

@@ -8,24 +8,26 @@ app.use(express.json());
 app.use(
   morgan(":method :url :status :res[content-length] - :response-time ms :body ")
 );
+
 const PORT = process.env.PORT ?? 3001;
+
 const {
-  getAllData,
-  createData,
-  getInfo,
-  getDataById,
-  deleteById,
-} = require("./model");
+  handleGetAllData,
+  handleGetDataById,
+  handleCreateData,
+  handleGetInfo,
+  handleDeleteById,
+} = require("./controller");
 
-app.get("/api/persons", getAllData);
+app.get("/api/persons", handleGetAllData);
 
-app.post("/api/persons", createData);
+app.post("/api/persons", handleCreateData);
 
-app.get("/info", getInfo);
+app.get("/info", handleGetInfo);
 
-app.get("/api/persons/:id", getDataById);
+app.get("/api/persons/:id", handleGetDataById);
 
-app.delete("/api/persons/:id", deleteById);
+app.delete("/api/persons/:id", handleDeleteById);
 
 app.listen(PORT, () => {
   console.log(`listening on port ${PORT}`);
